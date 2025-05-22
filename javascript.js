@@ -24,25 +24,32 @@ function divide(x, y){
 }
 
 function operate( num1, operator, num2){
+    let results = 0;
     switch(operator) {
         case "+":
-            isFirstCalculation = false;
-            return add(num1, num2);   
+            results = add(num1, num2);   
             break;
         case "-":
-            isFirstCalculation = false;
-            return subtract(num1, num2);   
+            results = subtract(num1, num2);   
             break;
         case "*":
-            isFirstCalculation = false;
-            return multiply(num1, num2);
+            result = multiply(num1, num2);
             break;
         case "/":
             if(num2 === 0) return "ERROR"
-            isFirstCalculation = false;
-            return divide(num1, num2);
+            results = divide(num1, num2);
             break;
     }
+
+    isFirstCalculation = false;
+    prepForNextCalculation(results);
+    return results;
+}
+
+function prepForNextCalculation(result){
+    firstNumber = result;
+    secondNumber = "";
+    currentOperator = "";
 }
 
 function numButtonEntered(event){
@@ -53,6 +60,7 @@ function numButtonEntered(event){
         {
             firstNumber = button.innerText;
             isFirstCalculation = true;
+            isFirstValue = true;
         } 
         else {
             if(isFirstValue){
@@ -78,15 +86,25 @@ function operatorEntered(event){
             if(isFirstValue){
                 currentOperator = '+';
                 isFirstValue = false;
-            } else {
-                let calculation = operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber)).toString();
-                firstNumber = calculation;
-                secondNumber = "";
-                currentOperator = "";
-                isFirstValue = true;
+            } else if(secondNumber === ''){
+                currentOperator = '+';
+            } else{
+                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber)).toString();
+                currentOperator = '+';
             }
-            setCalcDisplay();
         }
+        if(button.innerText === '-'){
+            if(isFirstValue){
+                currentOperator = '-';
+                isFirstValue = false;
+            } else if(secondNumber === ''){
+                currentOperator = '-';
+            } else {
+                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber)).toString();
+                currentOperator = '-';
+            }
+        }
+        setCalcDisplay();
     }
 }
 
