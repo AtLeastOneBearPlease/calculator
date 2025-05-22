@@ -1,3 +1,8 @@
+let calcDisplay = document.querySelector("input");
+
+let num1 = 0;
+let num2 = 0;
+
 function add(x, y){
     return x + y;
 }
@@ -31,10 +36,25 @@ function operate(operator, num1, num2){
     }
 }
 
+function numButtonEntered(event){
+    let button = event.target;
+
+    if(button.className === "number-button"){
+        let string = calcDisplay.value;
+
+        string += button.innerText;
+        calcDisplay.value = string;
+        calcDisplay.readOnly = true;
+    }
+}
+
+let numberInputSection = document.querySelector("#calculator-input");
+let operatorInputSection = document.querySelector("#operator-buttons");
+
+numberInputSection.addEventListener('click', numButtonEntered);
 
 /*
 
-For the function of the calculator, you know that we will have to pull information from the buttons
-and display it in the calculator text box; 
+
 
 */
