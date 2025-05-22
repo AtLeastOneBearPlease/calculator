@@ -87,7 +87,7 @@ function operatorEntered(event){
 
     if(button.className === 'operator-button'){
         if(button.innerText === '+'){
-            if(isFirstValue){
+            if(isFirstValue && firstNumber !== ''){
                 isFirstValue = false;
             } else if(secondNumber !== ''){ //Make sure we aren't calculating against nothing
                 //Do the current operation, even if it's currently another operator
@@ -99,7 +99,7 @@ function operatorEntered(event){
                 currentOperator = '+'
             }
         } else if(button.innerText === '-'){
-            if(isFirstValue){
+            if(isFirstValue  && firstNumber !== ''){
                 isFirstValue = false;
             } else if(secondNumber !== ''){
                 operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
@@ -109,7 +109,7 @@ function operatorEntered(event){
                 currentOperator = '-'
             }
         } else if(button.innerText === '/'){
-            if(isFirstValue){
+            if(isFirstValue  && firstNumber !== ''){
                 isFirstValue = false;
             }
             else if(secondNumber !== ''){
@@ -120,7 +120,7 @@ function operatorEntered(event){
                 currentOperator = '/'
             }
         } else if(button.innerText === '*'){
-            if(isFirstValue){
+            if(isFirstValue  && firstNumber !== ''){
                 isFirstValue = false;
             } else if(secondNumber !== ''){
                 operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
@@ -139,11 +139,23 @@ function operatorEntered(event){
     }
 }
 
+function clear(){
+    firstNumber = "";
+    secondNumber = "";
+    currentNumString = "";
+    currentOperator = "";
+    isFirstValue = true;
+    isFirstCalculation = true;
+    setCalcDisplay();
+}
+
 let numberInputSection = document.querySelector("#calculator-input");
 let operatorInputSection = document.querySelector("#operator-buttons");
+let clearButton = document.querySelector('#clear-button');
 
 numberInputSection.addEventListener('click', numButtonEntered);
 operatorInputSection.addEventListener('click', operatorEntered);
+clearButton.addEventListener('click', clear);
 
 /*
 
