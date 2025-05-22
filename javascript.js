@@ -37,7 +37,7 @@ function operate( num1, operator, num2){
             break;
         case "/":
             if(num2 === 0) {
-                alert("ERROR: Divide by zero"); //Later alert and and clear calc
+                alert("Wow. Seriously?"); //Later alert and and clear calc
                 result = 0;
                 //Use clear here and restart the calculator later;
             } else {
@@ -98,8 +98,7 @@ function operatorEntered(event){
             if(!isFirstValue && secondNumber === ''){
                 currentOperator = '+'
             }
-        }
-        if(button.innerText === '-'){
+        } else if(button.innerText === '-'){
             if(isFirstValue){
                 isFirstValue = false;
             } else if(secondNumber !== ''){
@@ -109,8 +108,7 @@ function operatorEntered(event){
             if(!isFirstValue && secondNumber === ''){
                 currentOperator = '-'
             }
-        }
-        if(button.innerText === '/'){
+        } else if(button.innerText === '/'){
             if(isFirstValue){
                 isFirstValue = false;
             }
@@ -121,8 +119,7 @@ function operatorEntered(event){
             if(!isFirstValue && secondNumber === ''){
                 currentOperator = '/'
             }
-        }
-        if(button.innerText === '*'){
+        } else if(button.innerText === '*'){
             if(isFirstValue){
                 isFirstValue = false;
             } else if(secondNumber !== ''){
@@ -132,8 +129,12 @@ function operatorEntered(event){
             if(!isFirstValue && secondNumber === ''){
                 currentOperator = '*';
             }
+        } else if(button.innerText === '='){
+            if(!isFirstValue && currentOperator !== ''){
+                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));           
+            }
         }
-        
+
         setCalcDisplay();
     }
 }
