@@ -4,3 +4,98 @@
     font-family: 'roboto', sans-serif;
     box-sizing: border-box;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+}
+
+#calculator-output,
+#calculator-input {
+    /* border: 1px solid black; */
+    min-width: 500px;
+    max-width: 500px;
+    display: flex;
+    /* margin-left: auto;
+    margin-right: auto; 
+    Leave this out for now. Makes it easier to work on*/
+}
+
+#calculator-output {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(109,179,242,1) 0%,
+    rgba(84,163,238,1) 50%,
+    rgba(54,144,240,1) 51%,
+    rgba(30,105,222,1) 100%);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+input {
+    height: 50px;
+    width: 80%;
+    font-size: 30px;
+    padding: 0px 10px;
+    border-radius: 10px;
+}
+
+#calculator-input {
+    height: 500px;
+    display: flex;
+    background: linear-gradient(to bottom, rgba(135,224,253,1) 0%,rgba(83,203,241,1) 40%,rgba(5,171,224,1) 100%);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#number-buttons {
+    flex: 3;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-evenly;
+    justify-content: space-evenly;
+    border-right: 0px solid black;
+}
+
+.number-button {
+    min-width: 100px;
+    min-height: 25%;
+}
+
+button {
+    box-shadow: 3px 3px 5px 1px rgba(0,0,0,0.19);
+    background: linear-gradient(to bottom, rgba(207,231,250,1) 0%,rgba(99,147,193,1) 100%);
+    font-size: 32px;
+    font-family: "Helvetica";
+    border-radius: 10px;
+}
+
+
+#operator-buttons {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.operator-button{
+    width: 80%;
+    flex: 1;
+    margin: 8px 0px;
+}
+
+#equals {
+    flex: 2;
+}
+
+/* 
+537D5D
+73946B
+9EBC8A
+D2D0A0
+*/
