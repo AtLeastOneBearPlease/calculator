@@ -73,7 +73,7 @@ input {
 
 .number-button {
     min-width: 100px;
-    min-height: 25%;
+    min-height: 20%;
 }
 
 button {
@@ -82,6 +82,10 @@ button {
     font-size: 32px;
     font-family: "Helvetica";
     border-radius: 10px;
+}
+
+#zero {
+    min-width: 333px;
 }
 
 

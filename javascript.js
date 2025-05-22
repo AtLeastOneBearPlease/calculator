@@ -33,17 +33,21 @@ function operate( num1, operator, num2){
             results = subtract(num1, num2);   
             break;
         case "*":
-            result = multiply(num1, num2);
+            results = multiply(num1, num2);
             break;
         case "/":
-            if(num2 === 0) return "ERROR"
-            results = divide(num1, num2);
+            if(num2 === 0) {
+                alert("ERROR: Divide by zero"); //Later alert and and clear calc
+                result = 0;
+                //Use clear here and restart the calculator later;
+            } else {
+                results = divide(num1, num2);
+            }
             break;
     }
 
     isFirstCalculation = false;
     prepForNextCalculation(results);
-    return results;
 }
 
 function prepForNextCalculation(result){
@@ -84,26 +88,52 @@ function operatorEntered(event){
     if(button.className === 'operator-button'){
         if(button.innerText === '+'){
             if(isFirstValue){
-                currentOperator = '+';
                 isFirstValue = false;
-            } else if(secondNumber === ''){
-                currentOperator = '+';
-            } else{
-                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber)).toString();
-                currentOperator = '+';
+            } else if(secondNumber !== ''){ //Make sure we aren't calculating against nothing
+                //Do the current operation, even if it's currently another operator
+                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
+            }
+
+            //set the operator to ours as long as the first value has been entered and the second number is empty
+            if(!isFirstValue && secondNumber === ''){
+                currentOperator = '+'
             }
         }
         if(button.innerText === '-'){
             if(isFirstValue){
-                currentOperator = '-';
                 isFirstValue = false;
-            } else if(secondNumber === ''){
-                currentOperator = '-';
-            } else {
-                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber)).toString();
-                currentOperator = '-';
+            } else if(secondNumber !== ''){
+                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
+            }
+
+            if(!isFirstValue && secondNumber === ''){
+                currentOperator = '-'
             }
         }
+        if(button.innerText === '/'){
+            if(isFirstValue){
+                isFirstValue = false;
+            }
+            else if(secondNumber !== ''){
+                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
+            }
+
+            if(!isFirstValue && secondNumber === ''){
+                currentOperator = '/'
+            }
+        }
+        if(button.innerText === '*'){
+            if(isFirstValue){
+                isFirstValue = false;
+            } else if(secondNumber !== ''){
+                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
+            }
+
+            if(!isFirstValue && secondNumber === ''){
+                currentOperator = '*';
+            }
+        }
+        
         setCalcDisplay();
     }
 }
