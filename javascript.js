@@ -43,7 +43,16 @@ function numButtonEntered(event){
     let button = event.target;
 
     if(button.className === "number-button"){
-        currentNumString += button.innerText;
+        
+        //If we aren't entering the first number and the operator is nil, this means that we have already done a calculator
+        //and there is a number in the box. Overwrite that number to start a new calculation; 
+        if(!enteringFirstNumber && currentOperator === ""){
+            currentNumString = button.innerText;
+            enteringFirstNumber = true;
+        } else {
+            currentNumString += button.innerText;
+        }
+            
         setCalcDisplay();
     }
 }
@@ -57,7 +66,7 @@ function operatorEntered(event){
 
     if(button.className === 'operator-button'){
         if(button.innerText === '+'){
-            if(enteringFirstNumber){
+            if(currentOperator === ""){
                 currentOperator = "+";
                 firstNumber = currentNumString;
                 currentNumString = "";
@@ -71,7 +80,6 @@ function operatorEntered(event){
                 firstNumber = "";
                 currentOperator = "";
                 setCalcDisplay();
-                enteringFirstNumber = true;
             }
         }
     }
