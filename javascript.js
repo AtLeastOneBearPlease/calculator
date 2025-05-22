@@ -1,9 +1,11 @@
 let calcDisplay = document.querySelector("input");
 
 let firstNumber = "";
+let secondNumber = "";
 let currentNumString = "";
 let currentOperator = "";
-let enteringFirstNumber = true;
+let isFirstValue = true;
+let isFirstCalculation = true;
 
 function add(x, y){
     return x + y;
@@ -24,16 +26,20 @@ function divide(x, y){
 function operate( num1, operator, num2){
     switch(operator) {
         case "+":
-            return add(num1, num2);
+            isFirstCalculation = false;
+            return add(num1, num2);   
             break;
         case "-":
-            return subtract(num1, num2);
+            isFirstCalculation = false;
+            return subtract(num1, num2);   
             break;
         case "*":
+            isFirstCalculation = false;
             return multiply(num1, num2);
             break;
         case "/":
-            if(num2 === 0) return "ERROR";
+            if(num2 === 0) return "ERROR"
+            isFirstCalculation = false;
             return divide(num1, num2);
             break;
     }
@@ -43,22 +49,25 @@ function numButtonEntered(event){
     let button = event.target;
 
     if(button.className === "number-button"){
-        
-        //If we aren't entering the first number and the operator is nil, this means that we have already done a calculator
-        //and there is a number in the box. Overwrite that number to start a new calculation; 
-        if(!enteringFirstNumber && currentOperator === ""){
-            currentNumString = button.innerText;
-            enteringFirstNumber = true;
-        } else {
-            currentNumString += button.innerText;
+        if(isFirstCalculation === false && currentOperator === "")
+        {
+            firstNumber = button.innerText;
+            isFirstCalculation = true;
+        } 
+        else {
+            if(isFirstValue){
+                firstNumber += button.innerText;
+            } else {
+                secondNumber += button.innerText;
+            }
         }
-            
+
         setCalcDisplay();
     }
 }
 
 function setCalcDisplay(){
-    calcDisplay.value = `${currentNumString} ${currentOperator} ${firstNumber}`
+    calcDisplay.value = `${secondNumber} ${currentOperator} ${firstNumber}`
 }
 
 function operatorEntered(event){
@@ -66,21 +75,17 @@ function operatorEntered(event){
 
     if(button.className === 'operator-button'){
         if(button.innerText === '+'){
-            if(currentOperator === ""){
-                currentOperator = "+";
-                firstNumber = currentNumString;
-                currentNumString = "";
-                setCalcDisplay();
-                enteringFirstNumber = false;
+            if(isFirstValue){
+                currentOperator = '+';
+                isFirstValue = false;
             } else {
-                let num1, num2 = 0;
-                num1 = parseFloat(firstNumber);
-                num2 = parseFloat(currentNumString);
-                currentNumString = operate(num1, currentOperator, num2).toString();
-                firstNumber = "";
+                let calculation = operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber)).toString();
+                firstNumber = calculation;
+                secondNumber = "";
                 currentOperator = "";
-                setCalcDisplay();
+                isFirstValue = true;
             }
+            setCalcDisplay();
         }
     }
 }
