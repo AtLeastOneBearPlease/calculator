@@ -2,7 +2,6 @@ let calcDisplay = document.querySelector("input");
 
 let firstNumber = "";
 let secondNumber = "";
-let currentNumString = "";
 let currentOperator = "";
 let isFirstValue = true;
 let isFirstCalculation = true;
@@ -37,8 +36,7 @@ function operate( num1, operator, num2){
             break;
         case "/":
             if(num2 === 0) {
-                alert("Wow. Seriously?"); //Later alert and and clear calc
-                result = 0;
+                results = "ERROR";
                 //Use clear here and restart the calculator later;
             } else {
                 results = divide(num1, num2);
@@ -46,8 +44,28 @@ function operate( num1, operator, num2){
             break;
     }
 
+    
+    let resultsString = results.toString();
+
+    if(resultsString.length > 15){
+        let decimalLocation = resultsString.indexOf('.');
+
+        let decimalsToRound = resultsString.length - decimalLocation;
+
+        results = roundDecimal(results, decimalsToRound);    
+    }
+
     isFirstCalculation = false;
     prepForNextCalculation(results);
+    setCalcDisplay(results);
+}
+
+function roundDecimal(number, precision = 2) {
+  if (Number.isFinite(number) && number % 1 !== 0) {
+    const factor = Math.pow(10, precision);
+    return Math.round(number * factor) / factor;
+  }
+  return number;
 }
 
 function prepForNextCalculation(result){
@@ -80,16 +98,21 @@ function numButtonEntered(event){
     }
 }
 
-function setCalcDisplay(){
-    calcDisplay.value = `${secondNumber} ${currentOperator} ${firstNumber}`
+function setCalcDisplay(optionalString = ''){
+    if(optionalString === ''){
+        calcDisplay.value = `${secondNumber} ${currentOperator} ${firstNumber}`
+    } else {
+        calcDisplay.value = optionalString;
+    }
 }
 
 //Handle the operator behaviors
 function operatorEntered(event){
-    let button = event.target;
+    let buttonText = event.target.innerText;
 
-    if(button.className === 'operator-button'){
-        if(button.innerText === '+'){
+    if(event.target.className === 'operator-button'){
+        if(buttonText === '+' || buttonText === '-' || buttonText === '/' || buttonText === '*')
+        {
             if(isFirstValue && firstNumber !== ''){
                 isFirstValue = false;
             } else if(secondNumber !== ''){ //Make sure we aren't calculating against nothing
@@ -97,43 +120,12 @@ function operatorEntered(event){
                 operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
             }
 
-            //set the operator to ours as long as the first value has been entered and the second number is empty
+            //Set the operator as long as the first value has been entered and the second number is empty
             //This can happen if the operator is pressed when there has been no value input
             if(!isFirstValue && secondNumber === ''){
-                currentOperator = '+'
+                currentOperator = buttonText;
             }
-        } else if(button.innerText === '-'){
-            if(isFirstValue  && firstNumber !== ''){
-                isFirstValue = false;
-            } else if(secondNumber !== ''){
-                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
-            }
-
-            if(!isFirstValue && secondNumber === ''){
-                currentOperator = '-'
-            }
-        } else if(button.innerText === '/'){
-            if(isFirstValue  && firstNumber !== ''){
-                isFirstValue = false;
-            }
-            else if(secondNumber !== ''){
-                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
-            }
-
-            if(!isFirstValue && secondNumber === ''){
-                currentOperator = '/'
-            }
-        } else if(button.innerText === '*'){
-            if(isFirstValue  && firstNumber !== ''){
-                isFirstValue = false;
-            } else if(secondNumber !== ''){
-                operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));
-            }
-
-            if(!isFirstValue && secondNumber === ''){
-                currentOperator = '*';
-            }
-        } else if(button.innerText === '='){
+        } else if(buttonText === '='){
             if(!isFirstValue && currentOperator !== ''){
                 operate(parseFloat(firstNumber), currentOperator, parseFloat(secondNumber));           
             }
@@ -146,20 +138,30 @@ function operatorEntered(event){
 function clear(){
     firstNumber = "";
     secondNumber = "";
-    currentNumString = "";
     currentOperator = "";
     isFirstValue = true;
     isFirstCalculation = true;
     setCalcDisplay();
 }
 
+function backspace(){
+    if(firstNumber !== '' && currentOperator !== ''){
+        secondNumber = secondNumber.slice(0, -1);
+    } else if(firstNumber !== ''){
+        firstNumber = firstNumber.slice(0, -1);
+    }
+    setCalcDisplay();
+}
+
 let numberInputSection = document.querySelector("#calculator-input");
 let operatorInputSection = document.querySelector("#operator-buttons");
 let clearButton = document.querySelector('#clear-button');
+let delButton = document.querySelector('#delete-button');
 
 numberInputSection.addEventListener('click', numButtonEntered);
 operatorInputSection.addEventListener('click', operatorEntered);
 clearButton.addEventListener('click', clear);
+delButton.addEventListener('click', backspace);
 
 /*
 

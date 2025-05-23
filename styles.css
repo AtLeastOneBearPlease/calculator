@@ -49,9 +49,13 @@ input {
 }
 
 #clear-button {
+    width: 12%;
+    text-align: center;
+    flex: 1.5;
+}
+
+#delete-button {
     padding: 0px 8px;
-    width: 10%;
-    flex: 1;
 }
 
 #calculator-input {
@@ -74,6 +78,12 @@ input {
 .number-button {
     min-width: 100px;
     min-height: 20%;
+}
+
+button.number-button:hover,
+#clear-button:hover,
+#delete-button:hover {
+    box-shadow: inset 0 0 10px rgb(56, 118, 168);
 }
 
 button {
@@ -102,13 +112,14 @@ button {
     margin: 8px 0px;
 }
 
+button.operator-button {
+    background: linear-gradient(to bottom, #ffa340 0%, #e27500 100%);
+}
+
+button.operator-button:hover {
+    box-shadow: inset 0 0 10px #a54505;
+}
+
 #equals {
     flex: 2;
 }
-
-/* 
-537D5D
-73946B
-9EBC8A
-D2D0A0
-*/
