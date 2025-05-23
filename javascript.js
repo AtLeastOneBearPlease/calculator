@@ -5,6 +5,7 @@ let secondNumber = "";
 let currentOperator = "";
 let isFirstValue = true;
 let isFirstCalculation = true;
+const CHAR_LIMIT = 14;
 
 function add(x, y){
     return x + y;
@@ -47,10 +48,10 @@ function operate( num1, operator, num2){
     
     let resultsString = results.toString();
 
-    if(resultsString.length > 15){
+    if(resultsString.length > CHAR_LIMIT){
         let decimalLocation = resultsString.indexOf('.');
 
-        let decimalsToRound = resultsString.length - decimalLocation;
+        let decimalsToRound =  CHAR_LIMIT - decimalLocation;
 
         results = roundDecimal(results, decimalsToRound);    
     }
@@ -89,13 +90,24 @@ function numButtonEntered(event){
             //Make sure that we are updating the correct string
             if(isFirstValue){
                 firstNumber += button.innerText;
+                firstNumber = limitLength(firstNumber);
+
             } else {
                 secondNumber += button.innerText;
+                secondNumber = limitLength(secondNumber);
             }
         }
 
         setCalcDisplay();
     }
+}
+
+//Limit the length of entered digits
+function limitLength(string){
+    if(string.length > CHAR_LIMIT) {
+        return string.slice(0, CHAR_LIMIT);
+    }
+    return string;
 }
 
 function setCalcDisplay(optionalString = ''){
