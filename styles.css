@@ -15,13 +15,11 @@ body {
 
 #calculator-output,
 #calculator-input {
-    /* border: 1px solid black; */
     min-width: 500px;
     max-width: 500px;
     display: flex;
-    /* margin-left: auto;
+    margin-left: auto;
     margin-right: auto; 
-    Leave this out for now. Makes it easier to work on*/
 }
 
 #calculator-output {
